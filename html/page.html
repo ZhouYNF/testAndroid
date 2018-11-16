@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>日报详情</title>
+	</head>
+	
+	<body>
+		<div id="mui-table-view-cell">
+			<!--banner图-->
+			<div class="detail-wrapper" ref="banner" v-show="content">
+				<!--日报标题-->
+				<p class="title">{{content.title}}</p>
+				<!--图片来源-->
+				<span class="image_source">{{content.image_source}}</span>
+			</div>
+			<!--日报主体内容-->
+			<div class="detail-content" v-html="body" :style="content?'':'margin-top:60px'"></div>
+			</div>
+		</div>
+		
+		
+		<script>
+			function getArticle(id){
+			mui.ajax('https://news-at.zhihu.com/api/4/news/' + id, {
+				type: 'GET',
+				dataType: 'json',
+				success: function(date) {
+					
+				},
+				error: function(xhr, type, errorThrown) {
+					//弹出系统提示窗
+					mui.toast('网络不给力，请稍后重试');
+				}
+			});
+			}
+		</script>
+	</body>
+</html>

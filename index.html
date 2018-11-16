@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+		<script src="js/jquery-2.1.1/jquery.js"></script>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+</head>
+<body>
+	
+	<div class="mui-slider">
+		<div class="mui-slider-group mui-slider-loop">
+		<!--支持循环，需要重复图片节点-->
+			<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img width="300" height="300" src="http://pic13.nipic.com/20110325/2900841_092056299195_2.jpg" /></a></div>
+			<div class="mui-slider-item"><a href="#"><img width="300" height="300" src="http://img.5669.com/uploads/mingxing/wuqian/14338313570.jpg" /></a></div>
+			<div class="mui-slider-item"><a href="#"><img width="300" height="300" src="http://pic1.win4000.com/wallpaper/2018-02-03/5a75631f369d9.jpg" /></a></div>
+			<div class="mui-slider-item"><a href="#"><img width="300" height="300" src="http://img10.biao12.com/uploadfiles/images/2016/02/19/20160219211239437.jpg" /></a></div>
+			<div class="mui-slider-item"><a href="#"><img width="300" height="300" src="http://i6.xitek.com/cms/uploads/allimg/161227/61_27153331_1.jpg" /></a></div>
+		<!--支持循环，需要重复图片节点-->
+			<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img width="300" height="300" src="http://img.5669.com/uploads/mingxing/wuqian/14338313570.jpg" /></a></div>
+		</div>
+	</div>
+
+
+<ul class="mui-table-view">
+   
+</ul> 
+
+ 	<script>
+		
+		
+			//获得slider插件对象
+		var gallery = mui('.mui-slider');
+		gallery.slider({
+		  interval:2000//自动轮播周期，若为0则不自动播放，默认为0；
+		});
+		
+		 var id;
+		 mui.ajax('https://news-at.zhihu.com/api/4/news/latest',{
+		dataType:'json',//服务器返回json格式数据
+		type:'get',//HTTP请求类型
+		success:function(data){
+			 mui.each(data.stories,function(i,v){
+			  var $li = $("<li class='mui-table-view-cell mui-media'></li>").appendTo(".mui-table-view");
+				id=v.id;
+						$li.append("<a href='https://news-at.zhihu.com/api/4/news/"+ v.id+"'>");
+						$li.append("<img class='mui-media-object mui-pull-right' src="+v.images+">");
+						$li.append("<div class='mui-media-body'><p class='mui-ellipsis'>"+v.title+"</p></div>");
+						$li.append("</a>")
+			 }) ;
+			}
+		}); 
+		
+		
+		mui(".mui-table-view").on('tap','.mui-table-view-cell mui-media',function(){
+  //获取id
+  var id = this.getAttribute(id);
+  //传值给详情页面，通知加载新数据
+  mui.fire(page,'getDetail',{id:id});
+  //打开新闻详情
+  mui.openWindow({
+    id:'id',
+    url:'page.html'
+  });
+}); 
+
+/* mui("body").on('tap', 'a', function() {
+    location=this.href;
+}) */
+	
+	</script>
+
+
+</body>
+</html>
